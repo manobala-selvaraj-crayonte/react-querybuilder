@@ -99,7 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../src */ "./src/index.js");
+/* harmony import */ var _src__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../src */ "./src/index.ts");
 /* harmony import */ var _src_query_builder_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../src/query-builder.scss */ "./src/query-builder.scss");
 /* harmony import */ var _src_query_builder_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_src_query_builder_scss__WEBPACK_IMPORTED_MODULE_3__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -29952,9 +29952,9 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./src/QueryBuilder.jsx":
+/***/ "./src/QueryBuilder.tsx":
 /*!******************************!*\
-  !*** ./src/QueryBuilder.jsx ***!
+  !*** ./src/QueryBuilder.tsx ***!
   \******************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -29969,9 +29969,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _controls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controls */ "./src/controls/index.js");
-/* harmony import */ var _RuleGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RuleGroup */ "./src/RuleGroup.jsx");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./src/utils/index.js");
+/* harmony import */ var _controls_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controls/index */ "./src/controls/index.ts");
+/* harmony import */ var _RuleGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RuleGroup */ "./src/RuleGroup.tsx");
+/* harmony import */ var _utils_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/index */ "./src/utils/index.ts");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -30116,14 +30116,14 @@ var defaultControlClassnames = {
   removeRule: ''
 };
 var defaultControlElements = {
-  addGroupAction: _controls__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
-  removeGroupAction: _controls__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
-  addRuleAction: _controls__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
-  removeRuleAction: _controls__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
-  combinatorSelector: _controls__WEBPACK_IMPORTED_MODULE_4__["ValueSelector"],
-  fieldSelector: _controls__WEBPACK_IMPORTED_MODULE_4__["ValueSelector"],
-  operatorSelector: _controls__WEBPACK_IMPORTED_MODULE_4__["ValueSelector"],
-  valueEditor: _controls__WEBPACK_IMPORTED_MODULE_4__["ValueEditor"]
+  addGroupAction: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
+  removeGroupAction: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
+  addRuleAction: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
+  removeRuleAction: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ActionElement"],
+  combinatorSelector: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ValueSelector"],
+  fieldSelector: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ValueSelector"],
+  operatorSelector: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ValueSelector"],
+  valueEditor: _controls_index__WEBPACK_IMPORTED_MODULE_4__["ValueEditor"]
 };
 /**
  * @param {QueryBuilderProps} props
@@ -30136,7 +30136,7 @@ var QueryBuilder = function QueryBuilder(props) {
    */
   var getInitialQuery = function getInitialQuery() {
     var query = props.query;
-    return query && Object(_utils__WEBPACK_IMPORTED_MODULE_6__["generateValidQuery"])(query) || createRuleGroup();
+    return query && Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["generateValidQuery"])(query) || createRuleGroup();
   };
   /**
    * @returns {RuleType}
@@ -30238,7 +30238,7 @@ var QueryBuilder = function QueryBuilder(props) {
   var onRuleAdd = function onRuleAdd(rule, parentId) {
     var rootCopy = _objectSpread({}, root);
 
-    var parent = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
+    var parent = Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
     parent.rules.push(rule);
     setRoot(rootCopy);
 
@@ -30254,7 +30254,7 @@ var QueryBuilder = function QueryBuilder(props) {
   var onGroupAdd = function onGroupAdd(group, parentId) {
     var rootCopy = _objectSpread({}, root);
 
-    var parent = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
+    var parent = Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
     parent.rules.push(group);
     setRoot(rootCopy);
 
@@ -30270,7 +30270,7 @@ var QueryBuilder = function QueryBuilder(props) {
   var onPropChange = function onPropChange(prop, value, ruleId) {
     var rootCopy = _objectSpread({}, root);
 
-    var rule = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["findRule"])(ruleId, rootCopy);
+    var rule = Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["findRule"])(ruleId, rootCopy);
     Object.assign(rule, _defineProperty({}, prop, value)); // Reset operator and value for field change
 
     if (prop === 'field') {
@@ -30294,7 +30294,7 @@ var QueryBuilder = function QueryBuilder(props) {
   var onRuleRemove = function onRuleRemove(ruleId, parentId) {
     var rootCopy = _objectSpread({}, root);
 
-    var parent = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
+    var parent = Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
     var index = parent.rules.findIndex(function (x) {
       return x.id === ruleId;
     });
@@ -30313,7 +30313,7 @@ var QueryBuilder = function QueryBuilder(props) {
   var onGroupRemove = function onGroupRemove(groupId, parentId) {
     var rootCopy = _objectSpread({}, root);
 
-    var parent = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
+    var parent = Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["findRule"])(parentId, rootCopy);
     var index = parent.rules.findIndex(function (x) {
       return x.id === groupId;
     });
@@ -30329,7 +30329,7 @@ var QueryBuilder = function QueryBuilder(props) {
 
 
   var getLevelFromRoot = function getLevelFromRoot(id) {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_6__["getLevel"])(id, 0, root);
+    return Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["getLevel"])(id, 0, root);
   };
   /**
    * Executes the `onQueryChange` function, if provided
@@ -30363,7 +30363,7 @@ var QueryBuilder = function QueryBuilder(props) {
     onGroupRemove: onGroupRemove,
     onPropChange: onPropChange,
     getLevel: getLevelFromRoot,
-    isRuleGroup: _utils__WEBPACK_IMPORTED_MODULE_6__["isRuleGroup"],
+    isRuleGroup: _utils_index__WEBPACK_IMPORTED_MODULE_6__["isRuleGroup"],
     controls: _objectSpread({}, defaultControlElements, {}, props.controlElements),
     getOperators: getOperators,
     getValueEditorType: getValueEditorType,
@@ -30373,7 +30373,7 @@ var QueryBuilder = function QueryBuilder(props) {
   }; // Set the query state when a new query prop comes in
 
   Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
-    setRoot(Object(_utils__WEBPACK_IMPORTED_MODULE_6__["generateValidQuery"])(props.query || getInitialQuery()));
+    setRoot(Object(_utils_index__WEBPACK_IMPORTED_MODULE_6__["generateValidQuery"])(props.query || getInitialQuery()));
   }, [props.query]); // Notify a query change on mount
 
   Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
@@ -30441,9 +30441,9 @@ QueryBuilder.displayName = 'QueryBuilder';
 
 /***/ }),
 
-/***/ "./src/Rule.jsx":
+/***/ "./src/Rule.tsx":
 /*!**********************!*\
-  !*** ./src/Rule.jsx ***!
+  !*** ./src/Rule.tsx ***!
   \**********************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -30546,9 +30546,9 @@ Rule.displayName = 'Rule';
 
 /***/ }),
 
-/***/ "./src/RuleGroup.jsx":
+/***/ "./src/RuleGroup.tsx":
 /*!***************************!*\
-  !*** ./src/RuleGroup.jsx ***!
+  !*** ./src/RuleGroup.tsx ***!
   \***************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -30557,7 +30557,7 @@ Rule.displayName = 'Rule';
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Rule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Rule */ "./src/Rule.jsx");
+/* harmony import */ var _Rule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Rule */ "./src/Rule.tsx");
 
 
 
@@ -30579,7 +30579,6 @@ var RuleGroup = function RuleGroup(_ref) {
       onGroupRemove = schema.onGroupRemove,
       onPropChange = schema.onPropChange,
       onRuleAdd = schema.onRuleAdd,
-      onRuleRemove = schema.onRuleRemove,
       showCombinatorsBetweenRules = schema.showCombinatorsBetweenRules;
 
   var hasParentGroup = function hasParentGroup() {
@@ -30667,8 +30666,7 @@ var RuleGroup = function RuleGroup(_ref) {
       operator: r.operator,
       schema: schema,
       parentId: id,
-      translations: translations,
-      onRuleRemove: onRuleRemove
+      translations: translations
     }));
   }));
 };
@@ -30685,19 +30683,19 @@ RuleGroup.displayName = 'RuleGroup';
 
 /***/ }),
 
-/***/ "./src/controls/ActionElement.jsx":
+/***/ "./src/controls/ActionElement.tsx":
 /*!****************************************!*\
-  !*** ./src/controls/ActionElement.jsx ***!
+  !*** ./src/controls/ActionElement.tsx ***!
   \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
@@ -30706,7 +30704,7 @@ var ActionElement = function ActionElement(_ref) {
       handleOnClick = _ref.handleOnClick,
       label = _ref.label,
       title = _ref.title;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
     className: className,
     title: title,
     onClick: function onClick(e) {
@@ -30717,28 +30715,28 @@ var ActionElement = function ActionElement(_ref) {
 
 ActionElement.displayName = 'ActionElement';
 ActionElement.propTypes = {
-  label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  handleOnClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
-  title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  label: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  handleOnClick: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
+  title: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
 };
 /* harmony default export */ __webpack_exports__["default"] = (ActionElement);
 
 /***/ }),
 
-/***/ "./src/controls/ValueEditor.jsx":
+/***/ "./src/controls/ValueEditor.tsx":
 /*!**************************************!*\
-  !*** ./src/controls/ValueEditor.jsx ***!
+  !*** ./src/controls/ValueEditor.tsx ***!
   \**************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
@@ -30758,7 +30756,7 @@ var ValueEditor = function ValueEditor(_ref) {
 
   switch (type) {
     case 'select':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
         className: className,
         title: title,
         onChange: function onChange(e) {
@@ -30766,14 +30764,14 @@ var ValueEditor = function ValueEditor(_ref) {
         },
         value: value
       }, values.map(function (v) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
           key: v.name,
           value: v.name
         }, v.label);
       }));
 
     case 'checkbox':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "checkbox",
         className: className,
         title: title,
@@ -30784,13 +30782,13 @@ var ValueEditor = function ValueEditor(_ref) {
       });
 
     case 'radio':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
         className: className,
         title: title
       }, values.map(function (v) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
           key: v.name
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "radio",
           value: v.name,
           checked: value === v.name,
@@ -30801,7 +30799,7 @@ var ValueEditor = function ValueEditor(_ref) {
       }));
 
     default:
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: inputType || 'text',
         value: value,
         title: title,
@@ -30815,33 +30813,33 @@ var ValueEditor = function ValueEditor(_ref) {
 
 ValueEditor.displayName = 'ValueEditor';
 ValueEditor.propTypes = {
-  field: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  operator: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.any,
-  handleOnChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
-  title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOf(['select', 'checkbox', 'radio', 'text']),
-  inputType: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  values: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object)
+  field: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  operator: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.any,
+  handleOnChange: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
+  title: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  type: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf(['select', 'checkbox', 'radio', 'text']),
+  inputType: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  values: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object)
 };
 /* harmony default export */ __webpack_exports__["default"] = (ValueEditor);
 
 /***/ }),
 
-/***/ "./src/controls/ValueSelector.jsx":
+/***/ "./src/controls/ValueSelector.tsx":
 /*!****************************************!*\
-  !*** ./src/controls/ValueSelector.jsx ***!
+  !*** ./src/controls/ValueSelector.tsx ***!
   \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
@@ -30851,7 +30849,7 @@ var ValueSelector = function ValueSelector(_ref) {
       options = _ref.options,
       title = _ref.title,
       value = _ref.value;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     className: className,
     value: value,
     title: title,
@@ -30860,7 +30858,7 @@ var ValueSelector = function ValueSelector(_ref) {
     }
   }, options.map(function (option) {
     var key = option.id ? "key-".concat(option.id) : "key-".concat(option.name);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
       key: key,
       value: option.name
     }, option.label);
@@ -30869,32 +30867,32 @@ var ValueSelector = function ValueSelector(_ref) {
 
 ValueSelector.displayName = 'ValueSelector';
 ValueSelector.propTypes = {
-  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array.isRequired,
-  className: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
-  handleOnChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
-  title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  value: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  options: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array.isRequired,
+  className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+  handleOnChange: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
+  title: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
 };
 /* harmony default export */ __webpack_exports__["default"] = (ValueSelector);
 
 /***/ }),
 
-/***/ "./src/controls/index.js":
+/***/ "./src/controls/index.ts":
 /*!*******************************!*\
-  !*** ./src/controls/index.js ***!
+  !*** ./src/controls/index.ts ***!
   \*******************************/
 /*! exports provided: ValueEditor, ValueSelector, ActionElement */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ValueEditor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ValueEditor */ "./src/controls/ValueEditor.jsx");
+/* harmony import */ var _ValueEditor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ValueEditor */ "./src/controls/ValueEditor.tsx");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValueEditor", function() { return _ValueEditor__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _ValueSelector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ValueSelector */ "./src/controls/ValueSelector.jsx");
+/* harmony import */ var _ValueSelector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ValueSelector */ "./src/controls/ValueSelector.tsx");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValueSelector", function() { return _ValueSelector__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _ActionElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ActionElement */ "./src/controls/ActionElement.jsx");
+/* harmony import */ var _ActionElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ActionElement */ "./src/controls/ActionElement.tsx");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ActionElement", function() { return _ActionElement__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
 
@@ -30903,18 +30901,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/index.js":
+/***/ "./src/index.ts":
 /*!**********************!*\
-  !*** ./src/index.js ***!
+  !*** ./src/index.ts ***!
   \**********************/
 /*! exports provided: default, formatQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _QueryBuilder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QueryBuilder */ "./src/QueryBuilder.jsx");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatQuery", function() { return _utils__WEBPACK_IMPORTED_MODULE_1__["formatQuery"]; });
+/* harmony import */ var _QueryBuilder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QueryBuilder */ "./src/QueryBuilder.tsx");
+/* harmony import */ var _utils_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/index */ "./src/utils/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatQuery", function() { return _utils_index__WEBPACK_IMPORTED_MODULE_1__["formatQuery"]; });
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_QueryBuilder__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -30933,16 +30931,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/utils/findRule.js":
+/***/ "./src/utils/findRule.ts":
 /*!*******************************!*\
-  !*** ./src/utils/findRule.js ***!
+  !*** ./src/utils/findRule.ts ***!
   \*******************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! . */ "./src/utils/index.js");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/utils/index.ts");
 
 
 var findRule = function findRule(id, parent) {
@@ -30960,7 +30958,7 @@ var findRule = function findRule(id, parent) {
 
       if (rule.id === id) {
         return rule;
-      } else if (Object(___WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(rule)) {
+      } else if (Object(_index__WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(rule)) {
         var subRule = findRule(id, rule);
 
         if (subRule) {
@@ -30988,16 +30986,16 @@ var findRule = function findRule(id, parent) {
 
 /***/ }),
 
-/***/ "./src/utils/formatQuery.js":
+/***/ "./src/utils/formatQuery.ts":
 /*!**********************************!*\
-  !*** ./src/utils/formatQuery.js ***!
+  !*** ./src/utils/formatQuery.ts ***!
   \**********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! . */ "./src/utils/index.js");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/utils/index.ts");
 
 /**
  * Formats a query in the requested output format.  The optional
@@ -31046,7 +31044,7 @@ var formatQuery = function formatQuery(ruleGroup, format, valueProcessor) {
 
     var processRuleGroup = function processRuleGroup(rg) {
       var processedRules = rg.rules.map(function (rule) {
-        if (Object(___WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(rule)) {
+        if (Object(_index__WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(rule)) {
           return processRuleGroup(rule);
         }
 
@@ -31065,9 +31063,9 @@ var formatQuery = function formatQuery(ruleGroup, format, valueProcessor) {
 
 /***/ }),
 
-/***/ "./src/utils/generateValidQuery.js":
+/***/ "./src/utils/generateValidQuery.ts":
 /*!*****************************************!*\
-  !*** ./src/utils/generateValidQuery.js ***!
+  !*** ./src/utils/generateValidQuery.ts ***!
   \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -31076,7 +31074,7 @@ var formatQuery = function formatQuery(ruleGroup, format, valueProcessor) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! . */ "./src/utils/index.js");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index */ "./src/utils/index.ts");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -31092,7 +31090,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 var generateValidQuery = function generateValidQuery(query) {
-  if (Object(___WEBPACK_IMPORTED_MODULE_1__["isRuleGroup"])(query)) {
+  if (Object(_index__WEBPACK_IMPORTED_MODULE_1__["isRuleGroup"])(query)) {
     return {
       id: query.id || "g-".concat(uuid_v4__WEBPACK_IMPORTED_MODULE_0___default()()),
       rules: query.rules.map(function (rule) {
@@ -31111,16 +31109,16 @@ var generateValidQuery = function generateValidQuery(query) {
 
 /***/ }),
 
-/***/ "./src/utils/getLevel.js":
+/***/ "./src/utils/getLevel.ts":
 /*!*******************************!*\
-  !*** ./src/utils/getLevel.js ***!
+  !*** ./src/utils/getLevel.ts ***!
   \*******************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! . */ "./src/utils/index.js");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/utils/index.ts");
 
 
 var getLevel = function getLevel(id, index, query) {
@@ -31128,11 +31126,11 @@ var getLevel = function getLevel(id, index, query) {
 
   if (query.id === id) {
     foundAtIndex = index;
-  } else if (Object(___WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(query)) {
+  } else if (Object(_index__WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(query)) {
     query.rules.forEach(function (rule) {
       if (foundAtIndex === -1) {
         var indexForRule = index;
-        if (Object(___WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(rule)) indexForRule++;
+        if (Object(_index__WEBPACK_IMPORTED_MODULE_0__["isRuleGroup"])(rule)) indexForRule++;
         foundAtIndex = getLevel(id, indexForRule, rule);
       }
     });
@@ -31145,28 +31143,28 @@ var getLevel = function getLevel(id, index, query) {
 
 /***/ }),
 
-/***/ "./src/utils/index.js":
+/***/ "./src/utils/index.ts":
 /*!****************************!*\
-  !*** ./src/utils/index.js ***!
+  !*** ./src/utils/index.ts ***!
   \****************************/
 /*! exports provided: findRule, formatQuery, generateValidQuery, getLevel, isRuleGroup */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _findRule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./findRule */ "./src/utils/findRule.js");
+/* harmony import */ var _findRule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./findRule */ "./src/utils/findRule.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findRule", function() { return _findRule__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _formatQuery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formatQuery */ "./src/utils/formatQuery.js");
+/* harmony import */ var _formatQuery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formatQuery */ "./src/utils/formatQuery.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatQuery", function() { return _formatQuery__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _generateValidQuery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./generateValidQuery */ "./src/utils/generateValidQuery.js");
+/* harmony import */ var _generateValidQuery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./generateValidQuery */ "./src/utils/generateValidQuery.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generateValidQuery", function() { return _generateValidQuery__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
-/* harmony import */ var _getLevel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getLevel */ "./src/utils/getLevel.js");
+/* harmony import */ var _getLevel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getLevel */ "./src/utils/getLevel.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getLevel", function() { return _getLevel__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _isRuleGroup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./isRuleGroup */ "./src/utils/isRuleGroup.js");
+/* harmony import */ var _isRuleGroup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./isRuleGroup */ "./src/utils/isRuleGroup.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isRuleGroup", function() { return _isRuleGroup__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
 
@@ -31177,9 +31175,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/utils/isRuleGroup.js":
+/***/ "./src/utils/isRuleGroup.ts":
 /*!**********************************!*\
-  !*** ./src/utils/isRuleGroup.js ***!
+  !*** ./src/utils/isRuleGroup.ts ***!
   \**********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -31187,12 +31185,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /**
- * Determines if this is a Rule or RuleGroup
- * @param {RuleType|RuleGroupType} ruleOrGroup
- * @returns {boolean}
+ * Determines if this is a RuleGroup
  */
 var isRuleGroup = function isRuleGroup(ruleOrGroup) {
-  return !!(ruleOrGroup.combinator && ruleOrGroup.rules);
+  var rg = ruleOrGroup;
+  return !!(rg.combinator && rg.rules);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (isRuleGroup);

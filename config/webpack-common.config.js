@@ -6,7 +6,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(t|j)sx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
@@ -14,7 +14,8 @@ module.exports = {
             '@babel/preset-env',
             {
               plugins: ['@babel/plugin-proposal-class-properties']
-            }
+            },
+            '@babel/preset-typescript'
           ]
         }
       },
@@ -40,7 +41,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.scss']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss']
   },
 
   plugins: [new MiniCssExtractPlugin({ filename: 'query-builder.css' })],

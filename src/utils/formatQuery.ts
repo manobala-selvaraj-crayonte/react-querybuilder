@@ -1,4 +1,4 @@
-import { isRuleGroup } from '.';
+import { isRuleGroup } from './index';
 
 /**
  * Formats a query in the requested output format.  The optional

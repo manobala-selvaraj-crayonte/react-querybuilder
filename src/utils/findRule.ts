@@ -1,4 +1,4 @@
-import { isRuleGroup } from '.';
+import { isRuleGroup } from './index';
 
 const findRule = (id, parent) => {
   if (parent.id === id) {

@@ -2,9 +2,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import uniqueId from 'uuid/v4';
-import { ActionElement, ValueEditor, ValueSelector } from './controls';
+import { ActionElement, ValueEditor, ValueSelector } from './controls/index';
 import RuleGroup from './RuleGroup';
-import { findRule, generateValidQuery, getLevel, isRuleGroup } from './utils';
+import { findRule, generateValidQuery, getLevel, isRuleGroup } from './utils/index';
 
 /**
  * @typedef {Object} RuleType

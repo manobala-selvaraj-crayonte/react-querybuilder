@@ -1,5 +1,5 @@
 import uniqueId from 'uuid/v4';
-import { isRuleGroup } from '.';
+import { isRuleGroup } from './index';
 
 /**
  * Generates a valid query object
