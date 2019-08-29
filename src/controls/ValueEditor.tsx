@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import { ValueEditorProps } from '../types';
 
-const ValueEditor = ({
+const ValueEditor: React.FC<Required<ValueEditorProps>> = ({
   operator,
   value,
   handleOnChange,
@@ -73,17 +73,5 @@ const ValueEditor = ({
 };
 
 ValueEditor.displayName = 'ValueEditor';
-
-ValueEditor.propTypes = {
-  field: PropTypes.string,
-  operator: PropTypes.string,
-  value: PropTypes.any,
-  handleOnChange: PropTypes.func,
-  title: PropTypes.string,
-  className: PropTypes.string,
-  type: PropTypes.oneOf(['select', 'checkbox', 'radio', 'text']),
-  inputType: PropTypes.string,
-  values: PropTypes.arrayOf(PropTypes.object)
-};
 
 export default ValueEditor;

@@ -1,7 +1,24 @@
 import React, { Fragment } from 'react';
 import Rule from './Rule';
+import { IRule, IRuleGroup, ISchema, ITranslations } from './types';
 
-const RuleGroup = ({ id, parentId, combinator, rules, translations, schema }) => {
+interface RuleGroupProps {
+  id: string;
+  parentId?: string;
+  combinator: string;
+  rules: (IRule | IRuleGroup)[];
+  translations: ITranslations;
+  schema: ISchema;
+}
+
+const RuleGroup: React.FC<RuleGroupProps> = ({
+  id,
+  parentId,
+  combinator,
+  rules,
+  translations,
+  schema
+}) => {
   const {
     classNames,
     combinators,
@@ -19,11 +36,11 @@ const RuleGroup = ({ id, parentId, combinator, rules, translations, schema }) =>
 
   const hasParentGroup = () => !!parentId;
 
-  const onCombinatorChange = (value) => {
+  const onCombinatorChange = (value: any) => {
     onPropChange('combinator', value, id);
   };
 
-  const addRule = (event) => {
+  const addRule = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -31,7 +48,7 @@ const RuleGroup = ({ id, parentId, combinator, rules, translations, schema }) =>
     onRuleAdd(newRule, id);
   };
 
-  const addGroup = (event) => {
+  const addGroup = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -39,11 +56,11 @@ const RuleGroup = ({ id, parentId, combinator, rules, translations, schema }) =>
     onGroupAdd(newGroup, id);
   };
 
-  const removeGroup = (event) => {
+  const removeGroup = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
-    onGroupRemove(id, parentId);
+    onGroupRemove(id, parentId!);
   };
 
   const level = getLevel(id);
@@ -127,11 +144,8 @@ const RuleGroup = ({ id, parentId, combinator, rules, translations, schema }) =>
 };
 
 RuleGroup.defaultProps = {
-  id: null,
-  parentId: null,
   rules: [],
-  combinator: 'and',
-  schema: {}
+  combinator: 'and'
 };
 
 RuleGroup.displayName = 'RuleGroup';

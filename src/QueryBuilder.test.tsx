@@ -1,8 +1,8 @@
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
+import sinon, { SinonSpy } from 'sinon';
 import QueryBuilder from './QueryBuilder';
-const sinon = require('sinon');
 
 describe('<QueryBuilder />', () => {
   it('should exist', () => {
@@ -10,7 +10,7 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when rendered', () => {
-    let wrapper;
+    let wrapper: ReactWrapper;
 
     beforeEach(() => {
       wrapper = mount(<QueryBuilder />);
@@ -31,7 +31,8 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when rendered with queryChange callback', () => {
-    let wrapper, queryChange;
+    let wrapper: ReactWrapper;
+    let queryChange: SinonSpy;
 
     beforeEach(() => {
       queryChange = sinon.spy();
@@ -55,7 +56,7 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when initial query, without ID, is provided', () => {
-    let wrapper;
+    let wrapper: ReactWrapper;
     const queryWithoutID = {
       combinator: 'and',
       rules: [
@@ -117,7 +118,7 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when receiving new props', () => {
-    let wrapper;
+    let wrapper: ReactWrapper;
     const newFields = [
       { name: 'domainName', label: 'Domain Name' },
       { name: 'ownerName', label: 'Owner Name' }
@@ -147,7 +148,7 @@ describe('<QueryBuilder />', () => {
     it('should generate new ID in state when receiving new props (query) with missing IDs', () => {
       const initialID = wrapper.find('RuleGroup').props().id;
 
-      expect(wrapper.props().query).to.be.null;
+      expect(wrapper.props().query).to.be.undefined;
       expect(initialID).to.not.be.undefined;
       expect(initialID).to.be.a('string');
 
@@ -167,7 +168,7 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when initial operators are provided', () => {
-    let wrapper;
+    let wrapper: ReactWrapper;
     const operators = [
       { name: 'null', label: 'Custom Is Null' },
       { name: 'notNull', label: 'Is Not Null' },
@@ -217,7 +218,8 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when getOperators fn prop is provided', () => {
-    let wrapper, getOperators;
+    let wrapper: ReactWrapper;
+    let getOperators: SinonSpy;
 
     const fields = [
       { name: 'firstName', label: 'First Name' },
@@ -267,7 +269,8 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when getValueEditorType fn prop is provided', () => {
-    let wrapper, getValueEditorType;
+    let wrapper: ReactWrapper
+    let getValueEditorType: SinonSpy;
 
     const fields = [
       { name: 'firstName', label: 'First Name' },
@@ -315,7 +318,8 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when getInputType fn prop is provided', () => {
-    let wrapper, getInputType;
+    let wrapper: ReactWrapper;
+    let getInputType: SinonSpy;
 
     const fields = [
       { name: 'firstName', label: 'First Name' },
@@ -359,7 +363,8 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when getValues fn prop is provided', () => {
-    let wrapper, getValues;
+    let wrapper: ReactWrapper;
+    let getValues: SinonSpy;
     const getValueEditorType = () => 'select';
 
     const fields = [
@@ -418,7 +423,8 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('actions', () => {
-    let wrapper, onQueryChange;
+    let wrapper: ReactWrapper;
+    let onQueryChange: SinonSpy;
     const fields = [{ name: 'Field 1', value: 'field1' }, { name: 'Field 2', value: 'field2' }];
 
     beforeEach(() => {

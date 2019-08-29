@@ -41,6 +41,6 @@ describe('findRule', () => {
   });
 
   it('should not find an invalid id', () => {
-    expect(findRule('777', query)).to.be.undefined;
+    expect(findRule('777', query)).to.be.null;
   });
 });

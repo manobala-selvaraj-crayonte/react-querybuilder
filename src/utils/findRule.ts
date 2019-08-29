@@ -1,6 +1,7 @@
+import { IRule, IRuleGroup } from '../types';
 import { isRuleGroup } from './index';
 
-const findRule = (id, parent) => {
+const findRule = (id: string, parent: IRuleGroup): IRule|IRuleGroup|null => {
   if (parent.id === id) {
     return parent;
   }
@@ -15,6 +16,8 @@ const findRule = (id, parent) => {
       }
     }
   }
+
+  return null;
 };
 
 export default findRule;

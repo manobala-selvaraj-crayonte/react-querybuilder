@@ -1,48 +1,155 @@
 import cloneDeep from 'lodash/cloneDeep';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import uniqueId from 'uuid/v4';
 import { ActionElement, ValueEditor, ValueSelector } from './controls/index';
 import RuleGroup from './RuleGroup';
+import {
+  ActionControlProps,
+  ActionControlWithRulesProps,
+  CombinatorSelectorProps,
+  Field,
+  FieldSelectorProps,
+  IRule,
+  IRuleGroup,
+  ISchema,
+  ITranslations,
+  NameLabelPair,
+  OperatorSelectorProps,
+  ValueEditorProps
+} from './types';
 import { findRule, generateValidQuery, getLevel, isRuleGroup } from './utils/index';
 
-/**
- * @typedef {Object} RuleType
- * @property {string} id
- * @property {string} field
- * @property {string} operator
- * @property {any} value
- */
-/**
- * @typedef {Object} RuleGroupType
- * @property {string} id
- * @property {string} combinator
- * @property {(RuleType|RuleGroupType)[]} rules
- */
-/**
- * @typedef {Object} ControlElements
- * @property {React.Component} addGroupAction
- * @property {React.Component} removeGroupAction
- * @property {React.Component} addRuleAction
- * @property {React.Component} removeRuleAction
- * @property {React.Component} combinatorSelector
- * @property {React.Component} fieldSelector
- * @property {React.Component} operatorSelector
- * @property {React.Component} valueEditor
- */
-/**
- * @typedef {Object} QueryBuilderProps
- * @property {RuleGroupType} query
- * @property {string[]} fields
- * @property {{name: string; label: string;}[]} operators
- * @property {{name: string; label: string;}[]} combinators
- * @property {ControlElements} controlElements
- * @property {(field: string) => {name: string; label: string;}[]} getOperators
- * @property {(query: RuleGroupType) => void} onQueryChange
- * @property {{}} controlClassnames
- * @property {{}} translations
- * @property {boolean} showCombinatorsBetweenRules
- */
+interface QueryBuilderProps {
+  query?: IRuleGroup;
+  /**
+   * The array of fields that should be used. Each field should be an object
+   * with {name: String, label: String}
+   */
+  fields: Field[];
+  /**
+   * The array of operators that should be used.
+   * @default
+   * [
+   *     {name: 'null', label: 'Is Null'},
+   *     {name: 'notNull', label: 'Is Not Null'},
+   *     {name: 'in', label: 'In'},
+   *     {name: 'notIn', label: 'Not In'},
+   *     {name: '=', label: '='},
+   *     {name: '!=', label: '!='},
+   *     {name: '<', label: '<'},
+   *     {name: '>', label: '>'},
+   *     {name: '<=', label: '<='},
+   *     {name: '>=', label: '>='},
+   * ]
+   */
+  operators?: NameLabelPair[];
+  /**
+   * The array of combinators that should be used for RuleGroups.
+   * @default
+   * [
+   *     {name: 'and', label: 'AND'},
+   *     {name: 'or', label: 'OR'},
+   * ]
+   */
+  combinators?: NameLabelPair[];
+  controlElements?: {
+    addGroupAction?: React.ComponentType<ActionControlWithRulesProps>;
+    removeGroupAction?: React.ComponentType<ActionControlWithRulesProps>;
+    addRuleAction?: React.ComponentType<ActionControlWithRulesProps>;
+    removeRuleAction?: React.ComponentType<ActionControlProps>;
+    combinatorSelector?: React.ComponentType<CombinatorSelectorProps>;
+    fieldSelector?: React.ComponentType<FieldSelectorProps>;
+    operatorSelector?: React.ComponentType<OperatorSelectorProps>;
+    valueEditor?: React.ComponentType<ValueEditorProps>;
+  };
+  /**
+   * This is a callback function invoked to get the list of allowed
+   * operators for the given field.
+   */
+  getOperators?(field: string): Field[];
+  /**
+   * This is a callback function invoked to get the type of `ValueEditor`
+   * for the given field and operator.
+   */
+  getValueEditorType?(field: string, operator: string): 'text' | 'select' | 'checkbox' | 'radio';
+  /**
+   * This is a callback function invoked to get the `type` of `<input />`
+   * for the given field and operator (only applicable when
+   * `getValueEditorType` returns `"text"` or a falsy value). If no
+   * function is provided, `"text"` is used as the default.
+   */
+  getInputType?(field: string, operator: string): string;
+  /**
+   * This is a callback function invoked to get the list of allowed
+   * values for the given field and operator (only applicable when
+   * `getValueEditorType` returns `"select"` or `"radio"`). If no
+   * function is provided, an empty array is used as the default.
+   */
+  getValues?(field: string, operator: string): NameLabelPair[];
+  /**
+   * This is a notification that is invoked anytime the query configuration changes.
+   */
+  onQueryChange(query: IRuleGroup): void;
+  /**
+   * This can be used to assign specific CSS classes to various controls
+   * that are created by the `<QueryBuilder />`.
+   */
+  controlClassnames?: {
+    /**
+     * Root `<div>` element
+     */
+    queryBuilder?: string;
+    /**
+     * `<div>` containing the RuleGroup
+     */
+    ruleGroup?: string;
+    /**
+     * `<select>` control for combinators
+     */
+    combinators?: string;
+    /**
+     * `<button>` to add a Rule
+     */
+    addRule?: string;
+    /**
+     * `<button>` to add a RuleGroup
+     */
+    addGroup?: string;
+    /**
+     * `<button>` to remove a RuleGroup
+     */
+    removeGroup?: string;
+    /**
+     * `<div>` containing the Rule
+     */
+    rule?: string;
+    /**
+     * `<select>` control for fields
+     */
+    fields?: string;
+    /**
+     * `<select>` control for operators
+     */
+    operators?: string;
+    /**
+     * `<input>` for the field value
+     */
+    value?: string;
+    /**
+     * `<button>` to remove a Rule
+     */
+    removeRule?: string;
+  };
+  /**
+   * This can be used to override translatable texts applied to various
+   * controls that are created by the `<QueryBuilder />`.
+   */
+  translations?: Partial<ITranslations>;
+  /**
+   * Show the combinators between rules and rule groups instead of at the top of rule groups.
+   */
+  showCombinatorsBetweenRules?: boolean;
+}
 
 const defaultTranslations = {
   fields: {
@@ -75,7 +182,7 @@ const defaultTranslations = {
   }
 };
 
-const defaultOperators = [
+const defaultOperators: NameLabelPair[] = [
   { name: 'null', label: 'Is Null' },
   { name: 'notNull', label: 'Is Not Null' },
   { name: 'in', label: 'In' },
@@ -88,7 +195,10 @@ const defaultOperators = [
   { name: '>=', label: '>=' }
 ];
 
-const defaultCombinators = [{ name: 'and', label: 'AND' }, { name: 'or', label: 'OR' }];
+const defaultCombinators: NameLabelPair[] = [
+  { name: 'and', label: 'AND' },
+  { name: 'or', label: 'OR' }
+];
 
 const defaultControlClassnames = {
   queryBuilder: '',
@@ -117,23 +227,17 @@ const defaultControlElements = {
   valueEditor: ValueEditor
 };
 
-/**
- * @param {QueryBuilderProps} props
- */
-const QueryBuilder = (props) => {
+const QueryBuilder: React.FC<QueryBuilderProps> = (props) => {
   /**
    * Gets the initial query
    * @returns {RuleGroupType}
    */
-  const getInitialQuery = () => {
+  const getInitialQuery = (): IRuleGroup => {
     const { query } = props;
-    return (query && generateValidQuery(query)) || createRuleGroup();
+    return (query && (generateValidQuery(query) as IRuleGroup)) || createRuleGroup();
   };
 
-  /**
-   * @returns {RuleType}
-   */
-  const createRule = () => {
+  const createRule = (): IRule => {
     const { fields } = props;
     const field = fields[0].name;
 
@@ -145,24 +249,16 @@ const QueryBuilder = (props) => {
     };
   };
 
-  /**
-   * @returns {RuleGroupType}
-   */
-  const createRuleGroup = () => {
-    return {
-      id: `g-${uniqueId()}`,
-      rules: [],
-      combinator: props.combinators[0].name
-    };
-  };
+  const createRuleGroup = (): IRuleGroup => ({
+    id: `g-${uniqueId()}`,
+    rules: [],
+    combinator: props.combinators![0].name
+  });
 
   /**
    * Gets the ValueEditor type for a given field and operator
-   * @param {string} field
-   * @param {string} operator
-   * @returns {string}
    */
-  const getValueEditorType = (field, operator) => {
+  const getValueEditorType = (field: string, operator: string) => {
     if (props.getValueEditorType) {
       const vet = props.getValueEditorType(field, operator);
       if (vet) return vet;
@@ -173,11 +269,8 @@ const QueryBuilder = (props) => {
 
   /**
    * Gets the `<input />` type for a given field and operator
-   * @param {string} field
-   * @param {string} operator
-   * @returns {string}
    */
-  const getInputType = (field, operator) => {
+  const getInputType = (field: string, operator: string) => {
     if (props.getInputType) {
       const inputType = props.getInputType(field, operator);
       if (inputType) return inputType;
@@ -192,7 +285,7 @@ const QueryBuilder = (props) => {
    * @param {string} operator
    * @returns {{name: string; label: string;}[]}
    */
-  const getValues = (field, operator) => {
+  const getValues = (field: string, operator: string): NameLabelPair[] => {
     if (props.getValues) {
       const vals = props.getValues(field, operator);
       if (vals) return vals;
@@ -203,26 +296,22 @@ const QueryBuilder = (props) => {
 
   /**
    * Gets the operators for a given field
-   * @param {string} field
-   * @returns {{name: string; label: string;}[]}
    */
-  const getOperators = (field) => {
+  const getOperators = (field: string): NameLabelPair[] => {
     if (props.getOperators) {
       const ops = props.getOperators(field);
       if (ops) return ops;
     }
 
-    return props.operators;
+    return props.operators!;
   };
 
   /**
    * Adds a rule to the query
-   * @param {RuleType} rule Rule to add
-   * @param {string} parentId ID of the parent rule group
    */
-  const onRuleAdd = (rule, parentId) => {
+  const onRuleAdd = (rule: IRule, parentId: string) => {
     const rootCopy = { ...root };
-    const parent = findRule(parentId, rootCopy);
+    const parent = findRule(parentId, rootCopy) as IRuleGroup;
     parent.rules.push(rule);
     setRoot(rootCopy);
     _notifyQueryChange(rootCopy);
@@ -230,25 +319,18 @@ const QueryBuilder = (props) => {
 
   /**
    * Adds a rule group to the query
-   * @param {RuleGroupType} group Rule group to add
-   * @param {string} parentId ID of the parent rule group
    */
-  const onGroupAdd = (group, parentId) => {
+  const onGroupAdd = (group: IRuleGroup, parentId: string) => {
     const rootCopy = { ...root };
-    const parent = findRule(parentId, rootCopy);
+    const parent = findRule(parentId, rootCopy) as IRuleGroup;
     parent.rules.push(group);
     setRoot(rootCopy);
     _notifyQueryChange(rootCopy);
   };
 
-  /**
-   * @param {string} prop Property that changed
-   * @param {any} value Value of the property
-   * @param {string} ruleId ID of the rule
-   */
-  const onPropChange = (prop, value, ruleId) => {
+  const onPropChange = (prop: string, value: any, ruleId: string) => {
     const rootCopy = { ...root };
-    const rule = findRule(ruleId, rootCopy);
+    const rule = findRule(ruleId, rootCopy) as IRule;
     Object.assign(rule, { [prop]: value });
 
     // Reset operator and value for field change
@@ -262,12 +344,10 @@ const QueryBuilder = (props) => {
 
   /**
    * Removes a rule from the query
-   * @param {string} ruleId ID of rule to remove
-   * @param {string} parentId ID of the parent rule group
    */
-  const onRuleRemove = (ruleId, parentId) => {
+  const onRuleRemove = (ruleId: string, parentId: string) => {
     const rootCopy = { ...root };
-    const parent = findRule(parentId, rootCopy);
+    const parent = findRule(parentId, rootCopy) as IRuleGroup;
     const index = parent.rules.findIndex((x) => x.id === ruleId);
 
     parent.rules.splice(index, 1);
@@ -278,12 +358,10 @@ const QueryBuilder = (props) => {
 
   /**
    * Removes a rule group from the query
-   * @param {string} groupId ID of rule group to remove
-   * @param {string} parentId ID of the parent rule group
    */
-  const onGroupRemove = (groupId, parentId) => {
+  const onGroupRemove = (groupId: string, parentId: string) => {
     const rootCopy = { ...root };
-    const parent = findRule(parentId, rootCopy);
+    const parent = findRule(parentId, rootCopy) as IRuleGroup;
     const index = parent.rules.findIndex((x) => x.id === groupId);
 
     parent.rules.splice(index, 1);
@@ -294,16 +372,15 @@ const QueryBuilder = (props) => {
 
   /**
    * Gets the level of the rule with the provided ID
-   * @param {string} id Rule ID
    */
-  const getLevelFromRoot = (id) => {
+  const getLevelFromRoot = (id: string) => {
     return getLevel(id, 0, root);
   };
 
   /**
    * Executes the `onQueryChange` function, if provided
    */
-  const _notifyQueryChange = (newRoot) => {
+  const _notifyQueryChange = (newRoot: IRuleGroup) => {
     const { onQueryChange } = props;
     if (onQueryChange) {
       const query = cloneDeep(newRoot);
@@ -313,10 +390,9 @@ const QueryBuilder = (props) => {
 
   const [root, setRoot] = useState(getInitialQuery());
 
-  const schema = {
+  const schema: ISchema = {
     fields: props.fields,
-    operators: { ...defaultOperators, ...props.operators },
-    combinators: props.combinators,
+    combinators: props.combinators!,
     classNames: { ...defaultControlClassnames, ...props.controlClassnames },
     createRule,
     createRuleGroup,
@@ -332,12 +408,12 @@ const QueryBuilder = (props) => {
     getValueEditorType,
     getInputType,
     getValues,
-    showCombinatorsBetweenRules: props.showCombinatorsBetweenRules
+    showCombinatorsBetweenRules: !!props.showCombinatorsBetweenRules
   };
 
   // Set the query state when a new query prop comes in
   useEffect(() => {
-    setRoot(generateValidQuery(props.query || getInitialQuery()));
+    setRoot(generateValidQuery(props.query || getInitialQuery()) as IRuleGroup);
   }, [props.query]);
 
   // Notify a query change on mount
@@ -348,60 +424,24 @@ const QueryBuilder = (props) => {
   return (
     <div className={`queryBuilder ${schema.classNames.queryBuilder}`}>
       <RuleGroup
-        translations={props.translations}
+        translations={{ ...defaultTranslations, ...props.translations }}
         rules={root.rules}
         combinator={root.combinator}
         schema={schema}
         id={root.id}
-        parentId={null}
+        parentId={undefined}
       />
     </div>
   );
 };
 
 QueryBuilder.defaultProps = {
-  query: null,
   fields: [],
   operators: defaultOperators,
   combinators: defaultCombinators,
   translations: defaultTranslations,
-  controlElements: null,
-  getOperators: null,
-  getValueEditorType: null,
-  getInputType: null,
-  getValues: null,
-  onQueryChange: null,
-  controlClassnames: null,
+  controlElements: {},
   showCombinatorsBetweenRules: false
-};
-
-QueryBuilder.propTypes = {
-  query: PropTypes.object,
-  fields: PropTypes.array.isRequired,
-  operators: PropTypes.arrayOf(
-    PropTypes.shape({ name: PropTypes.string, label: PropTypes.string })
-  ),
-  combinators: PropTypes.arrayOf(
-    PropTypes.shape({ name: PropTypes.string, label: PropTypes.string })
-  ),
-  controlElements: PropTypes.shape({
-    addGroupAction: PropTypes.func,
-    removeGroupAction: PropTypes.func,
-    addRuleAction: PropTypes.func,
-    removeRuleAction: PropTypes.func,
-    combinatorSelector: PropTypes.func,
-    fieldSelector: PropTypes.func,
-    operatorSelector: PropTypes.func,
-    valueEditor: PropTypes.func
-  }),
-  getOperators: PropTypes.func,
-  getValueEditorType: PropTypes.func,
-  getInputType: PropTypes.func,
-  getValues: PropTypes.func,
-  onQueryChange: PropTypes.func,
-  controlClassnames: PropTypes.object,
-  translations: PropTypes.object,
-  showCombinatorsBetweenRules: PropTypes.bool
 };
 
 QueryBuilder.displayName = 'QueryBuilder';

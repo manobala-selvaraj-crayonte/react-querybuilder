@@ -1,19 +1,18 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
-const ActionElement = ({ className, handleOnClick, label, title }) => (
+interface ActionElementProps {
+  className?: string;
+  handleOnClick: (event: React.MouseEvent) => void;
+  label?: string;
+  title?: string;
+}
+
+const ActionElement: React.FC<ActionElementProps> = ({ className, handleOnClick, label, title }) => (
   <button className={className} title={title} onClick={(e) => handleOnClick(e)}>
     {label}
   </button>
 );
 
 ActionElement.displayName = 'ActionElement';
-
-ActionElement.propTypes = {
-  label: PropTypes.string,
-  className: PropTypes.string,
-  handleOnClick: PropTypes.func,
-  title: PropTypes.string
-};
 
 export default ActionElement;

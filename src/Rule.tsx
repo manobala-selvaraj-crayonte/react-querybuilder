@@ -1,6 +1,17 @@
 import React from 'react';
+import { ISchema, ITranslations } from './types';
 
-const Rule = ({
+interface RuleProps {
+  id: string;
+  parentId: string;
+  field: string;
+  operator: string;
+  value: any;
+  translations: ITranslations;
+  schema: ISchema;
+}
+
+const Rule: React.FC<RuleProps> = ({
   id,
   parentId,
   field,
@@ -20,23 +31,23 @@ const Rule = ({
     onRuleRemove
   }
 }) => {
-  const onElementChanged = (property, value) => {
+  const onElementChanged = (property: string, value: any) => {
     onPropChange(property, value, id);
   };
 
-  const onFieldChanged = (value) => {
+  const onFieldChanged = (value: any) => {
     onElementChanged('field', value);
   };
 
-  const onOperatorChanged = (value) => {
+  const onOperatorChanged = (value: any) => {
     onElementChanged('operator', value);
   };
 
-  const onValueChanged = (value) => {
+  const onValueChanged = (value: any) => {
     onElementChanged('value', value);
   };
 
-  const removeRule = (event) => {
+  const removeRule = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -85,15 +96,6 @@ const Rule = ({
       />
     </div>
   );
-};
-
-Rule.defaultProps = {
-  id: null,
-  parentId: null,
-  field: null,
-  operator: null,
-  value: null,
-  schema: null
 };
 
 Rule.displayName = 'Rule';

@@ -1,3 +1,4 @@
+import { IRule, IRuleGroup } from '../types';
 import { isRuleGroup } from './index';
 
 /**
@@ -5,11 +6,12 @@ import { isRuleGroup } from './index';
  * `valueProcessor` argument can be used to format the values differently
  * based on a given field, operator, and value.  By default, values are
  * processed assuming the default operators are being used.
- * @param {RuleGroup} ruleGroup
- * @param {"json"|"sql"} format
- * @param {Function} valueProcessor
  */
-const formatQuery = (ruleGroup, format, valueProcessor) => {
+const formatQuery = (
+  ruleGroup: IRuleGroup,
+  format: 'json' | 'sql',
+  valueProcessor: (field: string, operator: string, value: any) => string
+) => {
   if (format.toLowerCase() === 'json') {
     return JSON.stringify(ruleGroup, null, 2);
   } else if (format.toLowerCase() === 'sql') {
@@ -22,7 +24,7 @@ const formatQuery = (ruleGroup, format, valueProcessor) => {
         } else if (operator.toLowerCase() === 'in' || operator.toLowerCase() === 'notin') {
           val = `(${value
             .split(',')
-            .map((v) => `"${v.trim()}"`)
+            .map((v: string) => `"${v.trim()}"`)
             .join(', ')})`;
         } else if (typeof value === 'boolean') {
           val = `${value}`.toUpperCase();
@@ -30,7 +32,7 @@ const formatQuery = (ruleGroup, format, valueProcessor) => {
         return val;
       });
 
-    const processRule = (rule) => {
+    const processRule = (rule: IRule) => {
       const value = valueProc(rule.field, rule.operator, rule.value);
 
       let operator = rule.operator;
@@ -45,7 +47,7 @@ const formatQuery = (ruleGroup, format, valueProcessor) => {
       return `${rule.field} ${operator} ${value}`.trim();
     };
 
-    const processRuleGroup = (rg) => {
+    const processRuleGroup = (rg: IRuleGroup): string => {
       const processedRules = rg.rules.map((rule) => {
         if (isRuleGroup(rule)) {
           return processRuleGroup(rule);

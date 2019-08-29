@@ -1,12 +1,11 @@
 import uniqueId from 'uuid/v4';
+import { IRule, IRuleGroup } from '../types';
 import { isRuleGroup } from './index';
 
 /**
  * Generates a valid query object
- * @param {RuleGroupType} query Unvalidated query
- * @returns {RuleGroupType}
  */
-const generateValidQuery = (query) => {
+const generateValidQuery = (query: IRule|IRuleGroup): IRule|IRuleGroup => {
   if (isRuleGroup(query)) {
     return {
       id: query.id || `g-${uniqueId()}`,

@@ -3,11 +3,13 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "strictNullChecks": true,
+    "strict": true,
     "module": "es6",
     "jsx": "react",
     "target": "es5",
     "allowJs": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/"]
+  "include": ["./src/"],
+  "exclude": ["**/*.test.*"]
 }

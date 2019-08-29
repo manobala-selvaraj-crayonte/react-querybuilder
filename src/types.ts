@@ -1,26 +1,24 @@
-import React from 'react';
-
 export interface NameLabelPair {
   name: string;
   label: string;
 }
 
-export interface Rule {
+export interface IRule {
   id: string;
   field: string;
   operator: string;
   value: any;
 }
 
-export interface RuleGroup {
+export interface IRuleGroup {
   id: string;
   combinator: string;
-  rules: (Rule | RuleGroup)[];
+  rules: (IRule | IRuleGroup)[];
 }
 
 export type ValueEditorType = 'text' | 'select' | 'checkbox' | 'radio';
 
-interface CommonCustomControlProps {
+interface CommonControlProps {
   /**
    * CSS classNames to be applied
    */
@@ -35,38 +33,38 @@ interface CommonCustomControlProps {
   title?: string;
 }
 
-interface ActionCustomControlProps extends CommonCustomControlProps {
+export interface ActionControlProps extends CommonControlProps {
   label?: string;
   handleOnClick?(): void;
 }
 
-interface ActionWithRulesCustomControlProps extends ActionCustomControlProps {
+export interface ActionControlWithRulesProps extends ActionControlProps {
   /**
    * Rules already present for this group
    */
-  rules?: Rule[];
+  rules?: IRule[];
 }
 
-interface SelectorEditorCustomControlProps extends CommonCustomControlProps {
+interface SelectorEditorProps extends CommonControlProps {
   value?: string;
   handleOnChange?(value: any): void;
 }
 
-interface CombinatorSelectorCustomControlProps extends SelectorEditorCustomControlProps {
+export interface CombinatorSelectorProps extends SelectorEditorProps {
   options: NameLabelPair[];
-  rules?: Rule[];
+  rules?: IRule[];
 }
 
-interface FieldSelectorCustomControlProps extends SelectorEditorCustomControlProps {
+export interface FieldSelectorProps extends SelectorEditorProps {
   options: NameLabelPair[];
 }
 
-interface OperatorSelectorCustomControlProps extends SelectorEditorCustomControlProps {
+export interface OperatorSelectorProps extends SelectorEditorProps {
   field?: string;
   options: NameLabelPair[];
 }
 
-interface ValueEditorCustomControlProps extends SelectorEditorCustomControlProps {
+export interface ValueEditorProps extends SelectorEditorProps {
   field?: string;
   operator?: string;
   type?: ValueEditorType;
@@ -74,167 +72,58 @@ interface ValueEditorCustomControlProps extends SelectorEditorCustomControlProps
   values?: any[];
 }
 
-interface Field extends NameLabelPair {
+export interface Field extends NameLabelPair {
   id?: string;
 }
 
-interface QueryBuilderProps {
-  query?: RuleGroup;
-  /**
-   * The array of fields that should be used. Each field should be an object
-   * with {name: String, label: String}
-   */
-  fields: Field[];
-  /**
-   * The array of operators that should be used.
-   * @default
-   * [
-   *     {name: 'null', label: 'Is Null'},
-   *     {name: 'notNull', label: 'Is Not Null'},
-   *     {name: 'in', label: 'In'},
-   *     {name: 'notIn', label: 'Not In'},
-   *     {name: '=', label: '='},
-   *     {name: '!=', label: '!='},
-   *     {name: '<', label: '<'},
-   *     {name: '>', label: '>'},
-   *     {name: '<=', label: '<='},
-   *     {name: '>=', label: '>='},
-   * ]
-   */
-  operators?: NameLabelPair[];
-  /**
-   * The array of combinators that should be used for RuleGroups.
-   * @default
-   * [
-   *     {name: 'and', label: 'AND'},
-   *     {name: 'or', label: 'OR'},
-   * ]
-   */
-  combinators?: NameLabelPair[];
-  controlElements?: {
-    addGroupAction?: React.ComponentType<ActionWithRulesCustomControlProps>;
-    removeGroupAction?: React.ComponentType<ActionWithRulesCustomControlProps>;
-    addRuleAction?: React.ComponentType<ActionWithRulesCustomControlProps>;
-    removeRuleAction?: React.ComponentType<ActionCustomControlProps>;
-    combinatorSelector?: React.ComponentType<CombinatorSelectorCustomControlProps>;
-    fieldSelector?: React.ComponentType<FieldSelectorCustomControlProps>;
-    operatorSelector?: React.ComponentType<OperatorSelectorCustomControlProps>;
-    valueEditor?: React.ComponentType<ValueEditorCustomControlProps>;
+export interface ITranslations {
+  fields: {
+    title: string;
   };
-  /**
-   * This is a callback function invoked to get the list of allowed
-   * operators for the given field.
-   */
-  getOperators?(field: string): Field[];
-  /**
-   * This is a callback function invoked to get the type of `ValueEditor`
-   * for the given field and operator.
-   */
-  getValueEditorType?(field: string, operator: string): 'text' | 'select' | 'checkbox' | 'radio';
-  /**
-   * This is a callback function invoked to get the `type` of `<input />`
-   * for the given field and operator (only applicable when
-   * `getValueEditorType` returns `"text"` or a falsy value). If no
-   * function is provided, `"text"` is used as the default.
-   */
-  getInputType?(field: string, operator: string): string;
-  /**
-   * This is a callback function invoked to get the list of allowed
-   * values for the given field and operator (only applicable when
-   * `getValueEditorType` returns `"select"` or `"radio"`). If no
-   * function is provided, an empty array is used as the default.
-   */
-  getValues?(field: string, operator: string): NameLabelPair[];
-  /**
-   * This is a notification that is invoked anytime the query configuration changes.
-   */
-  onQueryChange(query: RuleGroup): void;
-  /**
-   * This can be used to assign specific CSS classes to various controls
-   * that are created by the `<QueryBuilder />`.
-   */
-  controlClassnames?: {
-    /**
-     * Root `<div>` element
-     */
-    queryBuilder?: string;
-    /**
-     * `<div>` containing the RuleGroup
-     */
-    ruleGroup?: string;
-    /**
-     * `<select>` control for combinators
-     */
-    combinators?: string;
-    /**
-     * `<button>` to add a Rule
-     */
-    addRule?: string;
-    /**
-     * `<button>` to add a RuleGroup
-     */
-    addGroup?: string;
-    /**
-     * `<button>` to remove a RuleGroup
-     */
-    removeGroup?: string;
-    /**
-     * `<div>` containing the Rule
-     */
-    rule?: string;
-    /**
-     * `<select>` control for fields
-     */
-    fields?: string;
-    /**
-     * `<select>` control for operators
-     */
-    operators?: string;
-    /**
-     * `<input>` for the field value
-     */
-    value?: string;
-    /**
-     * `<button>` to remove a Rule
-     */
-    removeRule?: string;
+  operators: {
+    title: string;
   };
-  /**
-   * This can be used to override translatable texts applied to various
-   * controls that are created by the `<QueryBuilder />`.
-   */
-  translations?: {
-    fields?: {
-      title: string;
-    };
-    operators?: {
-      title: string;
-    };
-    value?: {
-      title: string;
-    };
-    removeRule?: {
-      label: string;
-      title: string;
-    };
-    removeGroup?: {
-      label: string;
-      title: string;
-    };
-    addRule?: {
-      label: string;
-      title: string;
-    };
-    addGroup?: {
-      label: string;
-      title: string;
-    };
-    combinators?: {
-      title: string;
-    };
+  value: {
+    title: string;
   };
-  /**
-   * Show the combinators between rules and rule groups instead of at the top of rule groups.
-   */
-  showCombinatorsBetweenRules?: boolean;
+  removeRule: {
+    label: string;
+    title: string;
+  };
+  removeGroup: {
+    label: string;
+    title: string;
+  };
+  addRule: {
+    label: string;
+    title: string;
+  };
+  addGroup: {
+    label: string;
+    title: string;
+  };
+  combinators: {
+    title: string;
+  };
+}
+
+export interface ISchema {
+  classNames: {[x: string]: string;};
+  combinators: NameLabelPair[];
+  controls: {[x: string]: React.ComponentType<any>;};
+  createRule: () => IRule;
+  createRuleGroup: () => IRuleGroup;
+  fields: NameLabelPair[];
+  getInputType: (field: string, operator: string) => string;
+  getLevel: (id: string) => number;
+  getOperators: (field: string) => NameLabelPair[];
+  getValueEditorType: (field: string, operator: string) => ValueEditorType;
+  getValues: (field: string, operator: string) => NameLabelPair[];
+  isRuleGroup: (ruleOrGroup: IRule|IRuleGroup) => ruleOrGroup is IRuleGroup;
+  onGroupAdd: (group: IRuleGroup, parentId: string) => void;
+  onGroupRemove: (groupId: string, parentId: string) => void;
+  onPropChange: (prop: string, value: any, ruleId: string) => void;
+  onRuleAdd: (rule: IRule, parentId: string) => void;
+  onRuleRemove: (id: string, parentId: string) => void;
+  showCombinatorsBetweenRules: boolean;
 }
