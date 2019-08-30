@@ -1,7 +1,7 @@
 import React from 'react';
 import { ValueEditorProps } from '../types';
 
-const ValueEditor: React.FC<Required<ValueEditorProps>> = ({
+const ValueEditor: React.FC<ValueEditorProps> = ({
   operator,
   value,
   handleOnChange,
@@ -23,7 +23,7 @@ const ValueEditor: React.FC<Required<ValueEditorProps>> = ({
           title={title}
           onChange={(e) => handleOnChange(e.target.value)}
           value={value}>
-          {values.map((v) => (
+          {values!.map((v) => (
             <option key={v.name} value={v.name}>
               {v.label}
             </option>
@@ -45,7 +45,7 @@ const ValueEditor: React.FC<Required<ValueEditorProps>> = ({
     case 'radio':
       return (
         <span className={className} title={title}>
-          {values.map((v) => (
+          {values!.map((v) => (
             <label key={v.name}>
               <input
                 type="radio"
@@ -70,6 +70,10 @@ const ValueEditor: React.FC<Required<ValueEditorProps>> = ({
         />
       );
   }
+};
+
+ValueEditor.defaultProps = {
+  values: [],
 };
 
 ValueEditor.displayName = 'ValueEditor';

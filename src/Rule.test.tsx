@@ -110,7 +110,7 @@ describe('<Rule />', () => {
       schema.fields = expected_fields;
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueSelector').props().options).to.equal(expected_fields);
+      expect(dom.find(ValueSelector).props().options).to.equal(expected_fields);
     });
 
     behavesLikeASelector('field', 'rule-fields', 'custom-fields-class');
@@ -128,14 +128,14 @@ describe('<Rule />', () => {
       };
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueSelector').props().options).to.equal(expected_operators);
+      expect(dom.find(ValueSelector).props().options).to.equal(expected_operators);
     });
 
     it('should have field set to selected field', () => {
       props.field = 'selected_field';
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueSelector').props().field).to.equal('selected_field');
+      expect(dom.find(ValueSelector).props().field).to.equal('selected_field');
     });
 
     behavesLikeASelector('operator', 'rule-operators', 'custom-operators-class');
@@ -150,33 +150,33 @@ describe('<Rule />', () => {
       props.field = 'selected_field';
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueEditor').props().field).to.equal('selected_field');
+      expect(dom.find(ValueEditor).props().field).to.equal('selected_field');
     });
 
     it('should have operator set to selected operator', () => {
       props.operator = 'selected_operator';
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueEditor').props().operator).to.equal('selected_operator');
+      expect(dom.find(ValueEditor).props().operator).to.equal('selected_operator');
     });
 
     it('should have value set to specified value', () => {
       props.value = 'specified_value';
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueEditor').props().value).to.equal('specified_value');
+      expect(dom.find(ValueEditor).props().value).to.equal('specified_value');
     });
 
     it('should have the onChange method handler', () => {
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ValueEditor').props().handleOnChange).to.be.a('function');
+      expect(dom.find(ValueEditor).props().handleOnChange).to.be.a('function');
     });
 
     it('should trigger change handler', () => {
       const mockEvent = { target: { value: 'foo' } };
       let onChange = sinon.spy();
-      const dom = shallow(<ValueEditor handleOnChange={onChange} />);
+      const dom = shallow(<ValueEditor handleOnChange={onChange} className="" level={0} />);
       dom.find('input').simulate('change', mockEvent);
       expect(onChange.called).to.equal(true);
     });
@@ -191,23 +191,23 @@ describe('<Rule />', () => {
     it('should have label set to "x"', () => {
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ActionElement').props().label).to.equal('x');
+      expect(dom.find(ActionElement).props().label).to.equal('x');
     });
 
     it('should have the default className', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ActionElement').props().className).to.contain('rule-remove');
+      expect(dom.find(ActionElement).props().className).to.contain('rule-remove');
     });
 
     it('should have the custom className', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ActionElement').props().className).to.contain('custom-removeRule-class');
+      expect(dom.find(ActionElement).props().className).to.contain('custom-removeRule-class');
     });
 
     it('should have the onChange method handler', () => {
       const dom = shallow(<Rule {...props} />);
 
-      expect(dom.find('ActionElement').props().handleOnClick).to.be.a('function');
+      expect(dom.find(ActionElement).props().handleOnClick).to.be.a('function');
     });
 
     //TODO spy on value change handler and verify it is triggered
@@ -272,30 +272,30 @@ describe('<Rule />', () => {
     });
   });
 
-  function behavesLikeASelector(value, defaultClassName, customClassName) {
+  function behavesLikeASelector(value: string, defaultClassName: string, customClassName: string) {
     it('should have the selected value set correctly', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ValueSelector').props().value).to.equal(value);
+      expect(dom.find(ValueSelector).props().value).to.equal(value);
     });
 
     it('should have the default className', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ValueSelector').props().className).to.contain(defaultClassName);
+      expect(dom.find(ValueSelector).props().className).to.contain(defaultClassName);
     });
 
     it('should have the custom className', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ValueSelector').props().className).to.contain(customClassName);
+      expect(dom.find(ValueSelector).props().className).to.contain(customClassName);
     });
 
     it('should have the onChange method handler', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ValueSelector').props().handleOnChange).to.be.a('function');
+      expect(dom.find(ValueSelector).props().handleOnChange).to.be.a('function');
     });
 
     it('should have the level of the Rule', () => {
       const dom = shallow(<Rule {...props} />);
-      expect(dom.find('ValueSelector').props().level).to.equal(0);
+      expect(dom.find(ValueSelector).props().level).to.equal(0);
     });
   }
 });

@@ -73,10 +73,6 @@ describe('formatQuery', () => {
     expect(formatQuery(query, 'sql')).to.equal(sqlString);
   });
 
-  it('handles invalid type correctly', () => {
-    expect(formatQuery(query, 'null')).to.equal('');
-  });
-
   it('handles custom valueProcessor correctly', () => {
     const queryWithArrayValue = {
       id: 'g-8953ed65-f5ff-4b77-8d03-8d8788beb50b',

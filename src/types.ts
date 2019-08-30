@@ -49,7 +49,7 @@ export interface ActionControlWithRulesProps extends ActionControlProps {
 
 interface SelectorEditorProps extends CommonControlProps {
   value?: string;
-  handleOnChange?(value: any): void;
+  handleOnChange(value: any): void;
 }
 
 export interface CombinatorSelectorProps extends SelectorEditorProps {

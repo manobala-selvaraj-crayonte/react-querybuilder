@@ -3,6 +3,10 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import sinon, { SinonSpy } from 'sinon';
 import QueryBuilder from './QueryBuilder';
+import Rule from './Rule';
+import RuleGroup from './RuleGroup';
+
+const onQueryChange = () => null;
 
 describe('<QueryBuilder />', () => {
   it('should exist', () => {
@@ -10,10 +14,10 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when rendered', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
 
     beforeEach(() => {
-      wrapper = mount(<QueryBuilder />);
+      wrapper = mount(<QueryBuilder fields={[]} onQueryChange={onQueryChange} />);
     });
 
     afterEach(() => {
@@ -21,7 +25,7 @@ describe('<QueryBuilder />', () => {
     });
 
     it('should render the root RuleGroup', () => {
-      expect(wrapper.find('RuleGroup')).to.have.length(1);
+      expect(wrapper.find(RuleGroup)).to.have.length(1);
     });
 
     it('should show the list of combinators in the RuleGroup', () => {
@@ -31,13 +35,13 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when rendered with queryChange callback', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     let queryChange: SinonSpy;
 
     beforeEach(() => {
       queryChange = sinon.spy();
       act(() => {
-        wrapper = mount(<QueryBuilder onQueryChange={queryChange} />);
+        wrapper = mount(<QueryBuilder fields={[]} onQueryChange={queryChange} />);
       });
     });
 
@@ -49,18 +53,20 @@ describe('<QueryBuilder />', () => {
     it('should call onQueryChange with query', () => {
       // Spy is called initially when mounting component (once)
       expect(queryChange.calledOnce).to.equal(true);
-      const initialID = wrapper.find('RuleGroup').props().id;
+      const initialID = wrapper.find(RuleGroup).props().id;
       const query = { id: initialID, combinator: 'and', rules: [] };
       expect(queryChange.calledWith(query)).to.equal(true);
     });
   });
 
   describe('when initial query, without ID, is provided', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     const queryWithoutID = {
+      id: 'g-test',
       combinator: 'and',
       rules: [
         {
+          id: 'r-test',
           field: 'firstName',
           value: 'Test without ID',
           operator: '='
@@ -76,7 +82,9 @@ describe('<QueryBuilder />', () => {
 
     beforeEach(() => {
       act(() => {
-        wrapper = mount(<QueryBuilder query={queryWithoutID} fields={fields} />);
+        wrapper = mount(
+          <QueryBuilder query={queryWithoutID} fields={fields} onQueryChange={onQueryChange} />
+        );
       });
     });
 
@@ -85,40 +93,40 @@ describe('<QueryBuilder />', () => {
     });
 
     it('should contain a <Rule />', () => {
-      const rule = wrapper.find('Rule');
+      const rule = wrapper.find(Rule);
       expect(rule).to.have.length(1);
     });
 
     it('should have the Rule with the correct props', () => {
-      const rule = wrapper.find('Rule');
+      const rule = wrapper.find(Rule);
       expect(rule.props().field).to.equal('firstName');
       expect(rule.props().value).to.equal('Test without ID');
       expect(rule.props().operator).to.equal('=');
     });
 
     it('should have a select control with the provided fields', () => {
-      const rule = wrapper.find('Rule');
+      const rule = wrapper.find(Rule);
       expect(rule.find('.rule-fields option')).to.have.length(3);
     });
 
     it('should have a field selector with the correct field', () => {
-      const rule = wrapper.find('Rule');
+      const rule = wrapper.find(Rule);
       expect(rule.find('.rule-fields select').props().value).to.equal('firstName');
     });
 
     it('should have an operator selector with the correct operator', () => {
-      const rule = wrapper.find('Rule');
+      const rule = wrapper.find(Rule);
       expect(rule.find('.rule-operators select').props().value).to.equal('=');
     });
 
     it('should have an input control with the correct value', () => {
-      const rule = wrapper.find('Rule');
+      const rule = wrapper.find(Rule);
       expect(rule.find('input').props().value).to.equal('Test without ID');
     });
   });
 
   describe('when receiving new props', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     const newFields = [
       { name: 'domainName', label: 'Domain Name' },
       { name: 'ownerName', label: 'Owner Name' }
@@ -137,7 +145,7 @@ describe('<QueryBuilder />', () => {
 
     beforeEach(() => {
       act(() => {
-        wrapper = mount(<QueryBuilder />);
+        wrapper = mount(<QueryBuilder fields={[]} onQueryChange={onQueryChange} />);
       });
     });
 
@@ -146,7 +154,7 @@ describe('<QueryBuilder />', () => {
     });
 
     it('should generate new ID in state when receiving new props (query) with missing IDs', () => {
-      const initialID = wrapper.find('RuleGroup').props().id;
+      const initialID = wrapper.find(RuleGroup).props().id;
 
       expect(wrapper.props().query).to.be.undefined;
       expect(initialID).to.not.be.undefined;
@@ -162,13 +170,13 @@ describe('<QueryBuilder />', () => {
       expect(wrapper.props().query).to.be.an('object');
       expect(wrapper.props().query.id).to.be.undefined;
 
-      expect(wrapper.find('RuleGroup').props().id).to.be.a('string');
-      expect(wrapper.find('RuleGroup').props().rules[0].id).to.be.a('string');
+      expect(wrapper.find(RuleGroup).props().id).to.be.a('string');
+      expect(wrapper.find(RuleGroup).props().rules[0].id).to.be.a('string');
     });
   });
 
   describe('when initial operators are provided', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     const operators = [
       { name: 'null', label: 'Custom Is Null' },
       { name: 'notNull', label: 'Is Not Null' },
@@ -196,7 +204,14 @@ describe('<QueryBuilder />', () => {
     };
 
     beforeEach(() => {
-      wrapper = mount(<QueryBuilder operators={operators} fields={fields} query={query} />);
+      wrapper = mount(
+        <QueryBuilder
+          operators={operators}
+          fields={fields}
+          query={query}
+          onQueryChange={onQueryChange}
+        />
+      );
     });
 
     afterEach(() => {
@@ -204,13 +219,13 @@ describe('<QueryBuilder />', () => {
     });
 
     it('should use the given operators', () => {
-      const operatorOptions = wrapper.find('Rule').find('.rule-operators option');
+      const operatorOptions = wrapper.find(Rule).find('.rule-operators option');
       expect(operatorOptions.length).to.equal(4);
     });
 
     it('should match the label of the first operator', () => {
       const operatorOption = wrapper
-        .find('Rule')
+        .find(Rule)
         .find('.rule-operators option')
         .first();
       expect(operatorOption.text()).to.equal('Custom Is Null');
@@ -218,7 +233,7 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when getOperators fn prop is provided', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     let getOperators: SinonSpy;
 
     const fields = [
@@ -248,7 +263,14 @@ describe('<QueryBuilder />', () => {
           { name: 'custom-operator-3', label: 'Op. 3' }
         ];
       });
-      wrapper = mount(<QueryBuilder query={query} fields={fields} getOperators={getOperators} />);
+      wrapper = mount(
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getOperators={getOperators}
+          onQueryChange={onQueryChange}
+        />
+      );
     });
 
     afterEach(() => {
@@ -262,14 +284,21 @@ describe('<QueryBuilder />', () => {
 
     it('should handle invalid getOperators function', () => {
       wrapper.unmount();
-      wrapper = mount(<QueryBuilder query={query} fields={fields} getOperators={() => null} />);
+      wrapper = mount(
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getOperators={() => null}
+          onQueryChange={onQueryChange}
+        />
+      );
       const operators = wrapper.find('.rule-operators option');
       expect(operators.first().props().value).to.equal('null');
     });
   });
 
   describe('when getValueEditorType fn prop is provided', () => {
-    let wrapper: ReactWrapper
+    let wrapper: ReactWrapper;
     let getValueEditorType: SinonSpy;
 
     const fields = [
@@ -294,7 +323,12 @@ describe('<QueryBuilder />', () => {
     beforeEach(() => {
       getValueEditorType = sinon.spy(() => 'text');
       wrapper = mount(
-        <QueryBuilder query={query} fields={fields} getValueEditorType={getValueEditorType} />
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getValueEditorType={getValueEditorType}
+          onQueryChange={onQueryChange}
+        />
       );
     });
 
@@ -310,7 +344,12 @@ describe('<QueryBuilder />', () => {
     it('should handle invalid getValueEditorType function', () => {
       wrapper.unmount();
       wrapper = mount(
-        <QueryBuilder query={query} fields={fields} getValueEditorType={() => null} />
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getValueEditorType={() => null}
+          onQueryChange={onQueryChange}
+        />
       );
       const valueEditor = wrapper.find('.rule-value');
       expect(valueEditor.first().props().type).to.equal('text');
@@ -318,7 +357,7 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('when getInputType fn prop is provided', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     let getInputType: SinonSpy;
 
     const fields = [
@@ -342,7 +381,14 @@ describe('<QueryBuilder />', () => {
 
     beforeEach(() => {
       getInputType = sinon.spy(() => 'text');
-      wrapper = mount(<QueryBuilder query={query} fields={fields} getInputType={getInputType} />);
+      wrapper = mount(
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getInputType={getInputType}
+          onQueryChange={onQueryChange}
+        />
+      );
     });
 
     afterEach(() => {
@@ -356,16 +402,23 @@ describe('<QueryBuilder />', () => {
 
     it('should handle invalid getInputType function', () => {
       wrapper.unmount();
-      wrapper = mount(<QueryBuilder query={query} fields={fields} getInputType={() => null} />);
+      wrapper = mount(
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getInputType={() => null}
+          onQueryChange={onQueryChange}
+        />
+      );
       const valueEditor = wrapper.find('.rule-value');
       expect(valueEditor.first().props().type).to.equal('text');
     });
   });
 
   describe('when getValues fn prop is provided', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     let getValues: SinonSpy;
-    const getValueEditorType = () => 'select';
+    const getValueEditorType = () => 'select' as 'select';
 
     const fields = [
       { name: 'firstName', label: 'First Name' },
@@ -394,6 +447,7 @@ describe('<QueryBuilder />', () => {
           fields={fields}
           getValueEditorType={getValueEditorType}
           getValues={getValues}
+          onQueryChange={onQueryChange}
         />
       );
     });
@@ -414,7 +468,14 @@ describe('<QueryBuilder />', () => {
 
     it('should handle invalid getValues function', () => {
       wrapper.unmount();
-      wrapper = mount(<QueryBuilder query={query} fields={fields} getValues={() => null} />);
+      wrapper = mount(
+        <QueryBuilder
+          query={query}
+          fields={fields}
+          getValues={() => null}
+          onQueryChange={onQueryChange}
+        />
+      );
       const select = wrapper.find('.rule-value');
       expect(select.length).to.be.greaterThan(0);
       const opts = wrapper.find('.rule-value option');
@@ -423,9 +484,9 @@ describe('<QueryBuilder />', () => {
   });
 
   describe('actions', () => {
-    let wrapper: ReactWrapper;
+    let wrapper: ReactWrapper<QueryBuilder>;
     let onQueryChange: SinonSpy;
-    const fields = [{ name: 'Field 1', value: 'field1' }, { name: 'Field 2', value: 'field2' }];
+    const fields = [{ label: 'Field 1', name: 'field1' }, { label: 'Field 2', name: 'field2' }];
 
     beforeEach(() => {
       onQueryChange = sinon.spy();
@@ -443,7 +504,7 @@ describe('<QueryBuilder />', () => {
         .first()
         .simulate('click');
 
-      expect(wrapper.find('Rule').length).to.equal(1);
+      expect(wrapper.find(Rule).length).to.equal(1);
       expect(onQueryChange.getCall(0).args[0].rules).to.have.length(0);
       expect(onQueryChange.getCall(1).args[0].rules).to.have.length(1);
 
@@ -452,7 +513,7 @@ describe('<QueryBuilder />', () => {
         .first()
         .simulate('click');
 
-      expect(wrapper.find('Rule').length).to.equal(0);
+      expect(wrapper.find(Rule).length).to.equal(0);
       expect(onQueryChange.getCall(2).args[0].rules).to.have.length(0);
     });
 
@@ -462,7 +523,7 @@ describe('<QueryBuilder />', () => {
         .first()
         .simulate('click');
 
-      expect(wrapper.find('RuleGroup').length).to.equal(2);
+      expect(wrapper.find(RuleGroup).length).to.equal(2);
       expect(onQueryChange.getCall(0).args[0].rules).to.have.length(0);
       expect(onQueryChange.getCall(1).args[0].rules).to.have.length(1);
       expect(onQueryChange.getCall(1).args[0].rules[0].combinator).to.not.be.undefined;
@@ -472,7 +533,7 @@ describe('<QueryBuilder />', () => {
         .first()
         .simulate('click');
 
-      expect(wrapper.find('RuleGroup').length).to.equal(1);
+      expect(wrapper.find(RuleGroup).length).to.equal(1);
       expect(onQueryChange.getCall(2).args[0].rules).to.have.length(0);
     });
 
@@ -482,7 +543,7 @@ describe('<QueryBuilder />', () => {
         .first()
         .simulate('click');
 
-      expect(wrapper.find('Rule').length).to.equal(1);
+      expect(wrapper.find(Rule).length).to.equal(1);
       expect(onQueryChange.getCall(0).args[0].rules).to.have.length(0);
       expect(onQueryChange.getCall(1).args[0].rules).to.have.length(1);
 
@@ -500,7 +561,7 @@ describe('<QueryBuilder />', () => {
         .first()
         .simulate('click');
 
-      expect(wrapper.find('Rule').length).to.equal(1);
+      expect(wrapper.find(Rule).length).to.equal(1);
       expect(onQueryChange.getCall(0).args[0].rules).to.have.length(0);
       expect(onQueryChange.getCall(1).args[0].rules).to.have.length(1);
 

@@ -7,6 +7,8 @@ interface ValueSelectorProps {
   options: Field[];
   title?: string;
   value?: any;
+  level?: number;
+  field?: string;
 }
 
 const ValueSelector: React.FC<ValueSelectorProps> = ({ className, handleOnChange, options, title, value }) => (

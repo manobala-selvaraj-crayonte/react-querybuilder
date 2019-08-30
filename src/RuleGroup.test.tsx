@@ -1,6 +1,7 @@
 import { mount, shallow } from 'enzyme';
-import React from 'react';
+import React, { FunctionComponent, PropsWithChildren } from 'react';
 import { ActionElement, ValueSelector } from './controls';
+import Rule from './Rule';
 import RuleGroup from './RuleGroup';
 
 describe('<RuleGroup />', () => {
@@ -96,21 +97,21 @@ describe('<RuleGroup />', () => {
       const expected_combinators = [{ name: 'and', label: 'AND' }, { name: 'or', label: 'OR' }];
       schema.combinators = expected_combinators;
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('ValueSelector').props().options).to.equal(expected_combinators);
+      expect(dom.find(ValueSelector).props().options).to.equal(expected_combinators);
     });
 
     it('should have the default selected value set to "and"', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('ValueSelector').props().value).to.equal('and');
+      expect(dom.find(ValueSelector).props().value).to.equal('and');
     });
 
     it('should have the onChange method handler', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('ValueSelector').props().handleOnChange).to.be.a('function');
+      expect(dom.find(ValueSelector).props().handleOnChange).to.be.a('function');
     });
 
     behavesLikeAnElementWithClassNames(
-      'ValueSelector',
+      ValueSelector,
       'ruleGroup-combinators',
       'custom-combinators-class'
     );
@@ -140,7 +141,7 @@ describe('<RuleGroup />', () => {
     it('does not exist if it does not have a parent', () => {
       props.parentId = null;
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('ActionElement')).to.have.length(0);
+      expect(dom.find(ActionElement)).to.have.length(0);
     });
 
     behavesLikeAnActionElement('x', 'ruleGroup-remove', 'custom-removeGroup-class');
@@ -153,13 +154,13 @@ describe('<RuleGroup />', () => {
 
     it('has 2 <Rule /> elements', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('Rule')).to.have.length(2);
+      expect(dom.find(Rule)).to.have.length(2);
     });
 
     it('has the first rule with the correct values', () => {
       const dom = shallow(<RuleGroup {...props} />);
       const ruleProps = dom
-        .find('Rule')
+        .find(Rule)
         .first()
         .props();
       expect(ruleProps.id).to.equal('rule_id_1');
@@ -179,12 +180,12 @@ describe('<RuleGroup />', () => {
 
     it('has 1 <RuleGroup /> element', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('RuleGroup')).to.have.length(1);
+      expect(dom.find(RuleGroup)).to.have.length(1);
     });
 
     it('has 1 <RuleGroup /> with expected properties', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      const groupProps = dom.find('RuleGroup').props();
+      const groupProps = dom.find(RuleGroup).props();
       expect(groupProps.id).to.equal('rule_group_id_1');
       expect(groupProps.parentId).to.equal('id');
       expect(groupProps.rules).to.be.an('array');
@@ -279,21 +280,29 @@ describe('<RuleGroup />', () => {
   });
 
   //shared examples
-  function behavesLikeAnActionElement(label, defaultClassName, customClassName) {
+  function behavesLikeAnActionElement(
+    label: string,
+    defaultClassName: string,
+    customClassName: string
+  ) {
     it('should have the correct label', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('ActionElement').props().label).to.equal(label);
+      expect(dom.find(ActionElement).props().label).to.equal(label);
     });
 
     it('should have the onClick method handler', () => {
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find('ActionElement').props().handleOnClick).to.be.a('function');
+      expect(dom.find(ActionElement).props().handleOnClick).to.be.a('function');
     });
 
-    behavesLikeAnElementWithClassNames('ActionElement', defaultClassName, customClassName);
+    behavesLikeAnElementWithClassNames(ActionElement, defaultClassName, customClassName);
   }
 
-  function behavesLikeAnElementWithClassNames(element, defaultClassName, customClassName) {
+  function behavesLikeAnElementWithClassNames(
+    element: FunctionComponent<any>,
+    defaultClassName: string,
+    customClassName: string
+  ) {
     it('should have the default className', () => {
       const dom = shallow(<RuleGroup {...props} />);
       expect(dom.find(element).props().className).to.contain(defaultClassName);
@@ -306,12 +315,14 @@ describe('<RuleGroup />', () => {
     it('should pass down the existing rules array', () => {
       props.rules = [_createRule(1), _createRule(2)];
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find(element).props().rules).to.equal(props.rules);
+      expect((dom.find(element).props() as PropsWithChildren<RuleGroup>).rules).to.equal(
+        props.rules
+      );
     });
     it('should pass down the level of the element', () => {
       props.rules = [_createRule(1), _createRule(2)];
       const dom = shallow(<RuleGroup {...props} />);
-      expect(dom.find(element).props().level).to.equal(0);
+      expect((dom.find(element).props() as PropsWithChildren<RuleGroup>).level).to.equal(0);
     });
   }
 

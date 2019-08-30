@@ -10,8 +10,8 @@ import { isRuleGroup } from '.';
 const formatQuery = (
   ruleGroup: IRuleGroup,
   format: 'json' | 'sql',
-  valueProcessor: (field: string, operator: string, value: any) => string
-) => {
+  valueProcessor?: (field: string, operator: string, value: any) => string
+): string|undefined => {
   if (format.toLowerCase() === 'json') {
     return JSON.stringify(ruleGroup, null, 2);
   } else if (format.toLowerCase() === 'sql') {
@@ -58,8 +58,6 @@ const formatQuery = (
     };
 
     return processRuleGroup(ruleGroup);
-  } else {
-    return '';
   }
 };
 
