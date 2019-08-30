@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface NameLabelPair {
   name: string;
   label: string;
