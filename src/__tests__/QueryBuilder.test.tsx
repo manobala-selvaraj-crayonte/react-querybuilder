@@ -2,9 +2,9 @@ import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import sinon, { SinonSpy } from 'sinon';
-import QueryBuilder from './QueryBuilder';
-import Rule from './Rule';
-import RuleGroup from './RuleGroup';
+import QueryBuilder from '../QueryBuilder';
+import Rule from '../Rule';
+import RuleGroup from '../RuleGroup';
 
 const onQueryChange = () => null;
 
@@ -17,7 +17,7 @@ describe('<QueryBuilder />', () => {
     let wrapper: ReactWrapper<QueryBuilder>;
 
     beforeEach(() => {
-      wrapper = mount(<QueryBuilder fields={[]} onQueryChange={onQueryChange} />);
+      wrapper = mount(<QueryBuilder fields={[]} onQueryChange={null} />);
     });
 
     afterEach(() => {

@@ -1,5 +1,5 @@
-import { generateValidQuery } from '.';
-import { IRule, IRuleGroup } from '../types';
+import { generateValidQuery } from '..';
+import { IRule, IRuleGroup } from '../../types';
 
 describe('generateValidQuery', () => {
   describe('when initial query, with ID, is provided', () => {

@@ -1,8 +1,8 @@
 import { mount, shallow } from 'enzyme';
 import React, { FunctionComponent, PropsWithChildren } from 'react';
-import { ActionElement, ValueSelector } from './controls';
-import Rule from './Rule';
-import RuleGroup from './RuleGroup';
+import { ActionElement, ValueSelector } from '../controls';
+import Rule from '../Rule';
+import RuleGroup from '../RuleGroup';
 
 describe('<RuleGroup />', () => {
   let controls, classNames, schema, props;
