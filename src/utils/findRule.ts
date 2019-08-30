@@ -1,5 +1,5 @@
 import { IRule, IRuleGroup } from '../types';
-import { isRuleGroup } from './index';
+import { isRuleGroup } from '.';
 
 const findRule = (id: string, parent: IRuleGroup): IRule|IRuleGroup|null => {
   if (parent.id === id) {

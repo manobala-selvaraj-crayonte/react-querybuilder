@@ -1,5 +1,5 @@
 import { IRule, IRuleGroup } from '../types';
-import { isRuleGroup } from './index';
+import { isRuleGroup } from '.';
 
 const getLevel = (id: any, index: number, query: IRule|IRuleGroup) => {
   let foundAtIndex = -1;

@@ -1,5 +1,5 @@
 import { IRule, IRuleGroup } from '../types';
-import { isRuleGroup } from './index';
+import { isRuleGroup } from '.';
 
 /**
  * Formats a query in the requested output format.  The optional

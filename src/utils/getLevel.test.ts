@@ -1,4 +1,4 @@
-import { getLevel } from './index';
+import { getLevel } from '.';
 
 describe('when calculating the level of a rule', () => {
   const query = {

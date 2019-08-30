@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { ActionElement } from './index';
+import { ActionElement } from '.';
 
 describe('<ActionElement />', () => {
   it('should exist', () => {

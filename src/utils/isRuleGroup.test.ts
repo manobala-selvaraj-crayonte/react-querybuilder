@@ -1,4 +1,4 @@
-import { isRuleGroup } from './index';
+import { isRuleGroup } from '.';
 
 describe('isRuleGroup', () => {
   const rule = {

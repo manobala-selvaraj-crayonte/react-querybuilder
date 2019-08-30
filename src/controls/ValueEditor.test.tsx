@@ -1,7 +1,7 @@
 import { mount, shallow } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
-import { ValueEditor } from './index';
+import { ValueEditor } from '.';
 
 describe('<ValueEditor />', () => {
   it('should exist', () => {

@@ -1,6 +1,6 @@
 import { mount, shallow } from 'enzyme';
 import React from 'react';
-import { ActionElement, ValueSelector } from './controls/index';
+import { ActionElement, ValueSelector } from './controls';
 import RuleGroup from './RuleGroup';
 
 describe('<RuleGroup />', () => {

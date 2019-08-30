@@ -1,7 +1,7 @@
 import { mount, shallow } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
-import { ActionElement, ValueEditor, ValueSelector } from './controls/index';
+import { ActionElement, ValueEditor, ValueSelector } from './controls';
 import Rule from './Rule';
 
 describe('<Rule />', () => {

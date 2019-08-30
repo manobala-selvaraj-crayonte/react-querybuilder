@@ -1,6 +1,6 @@
 import uniqueId from 'uuid/v4';
 import { IRule, IRuleGroup } from '../types';
-import { isRuleGroup } from './index';
+import { isRuleGroup } from '.';
 
 /**
  * Generates a valid query object

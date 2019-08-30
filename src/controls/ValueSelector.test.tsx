@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { ValueSelector } from './index';
+import { ValueSelector } from '.';
 
 describe('<ValueSelector />', () => {
   it('should exist', () => {

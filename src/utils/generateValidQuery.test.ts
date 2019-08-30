@@ -1,4 +1,4 @@
-import { generateValidQuery } from './index';
+import { generateValidQuery } from '.';
 
 describe('generateValidQuery', () => {
   describe('when initial query, with ID, is provided', () => {

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import React, { useEffect, useState } from 'react';
 import uniqueId from 'uuid/v4';
-import { ActionElement, ValueEditor, ValueSelector } from './controls/index';
+import { ActionElement, ValueEditor, ValueSelector } from './controls';
 import RuleGroup from './RuleGroup';
 import {
   ActionControlProps,
@@ -17,7 +17,7 @@ import {
   OperatorSelectorProps,
   ValueEditorProps
 } from './types';
-import { findRule, generateValidQuery, getLevel, isRuleGroup } from './utils/index';
+import { findRule, generateValidQuery, getLevel, isRuleGroup } from './utils';
 
 interface QueryBuilderProps {
   query?: IRuleGroup;
