@@ -27,6 +27,15 @@ const Rule = ({
   const onFieldChanged = (value) => {
     onElementChanged('field', value);
   };
+  
+    const onDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const onDrop = (e, id) => {
+    let data = e.dataTransfer.getData('value');
+    onElementChanged('field', data);
+  };
 
   const onOperatorChanged = (value) => {
     onElementChanged('operator', value);
@@ -54,6 +63,8 @@ const Rule = ({
         value={field}
         className={`rule-fields ${classNames.fields}`}
         handleOnChange={onFieldChanged}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
         level={level}
       />
       <controls.operatorSelector
