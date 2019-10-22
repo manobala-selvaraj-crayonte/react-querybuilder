@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import nanoid from 'nanoid';
-import { ActionElement, NotToggle, ValueEditor, ValueSelector } from './controls';
+import { ActionElement, NotToggle, ValueEditor, ValueSelector, ValueInput } from './controls';
 import RuleGroup from './RuleGroup';
 import { findRule, generateValidQuery, getLevel, isRuleGroup } from './utils';
 
@@ -118,7 +118,7 @@ const defaultControlElements = {
   addRuleAction: ActionElement,
   removeRuleAction: ActionElement,
   combinatorSelector: ValueSelector,
-  fieldSelector: ValueSelector,
+  fieldSelector: ValueInput,
   operatorSelector: ValueSelector,
   valueEditor: ValueEditor,
   notToggle: NotToggle
